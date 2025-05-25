@@ -4,6 +4,7 @@ using Danplom.Model;
 using Danplom.Services.Dialog.Base;
 using Danplom.View.Windows;
 using Danplom.ViewModel.Windows;
+using Danplom.DataBaseConnector;
 using System.Collections.ObjectModel;
 
 namespace Danplom.ViewModel.Components.Requests;
@@ -15,8 +16,20 @@ public partial class RequestAdminListComponentViewModel : ObservableObject
     public RequestAdminListComponentViewModel(IDialogService dialogService)
     {
         this.dialogService = dialogService;
-        //TODO тут должен быть запрос для получения полного списка запросов.
-        Requests.Add(new RequestDto(-1, 100, 200, 0, "Да", -1));
+
+        LoadData();
+    }
+
+    private void LoadData()
+    {
+        var collection = DataBase.GetInstance().GetRequestCollection();
+        if (collection is null) return;
+
+        Requests.Clear();
+        foreach (var item in collection)
+        {
+            Requests.Add(item);
+        }
     }
 
     [RelayCommand]
@@ -42,14 +55,14 @@ public partial class RequestAdminListComponentViewModel : ObservableObject
 
     private void Add(RequestDto requestDto)
     {
-        //TODO Тут должен быть запрос на добавление записи в БД.
+        if(!DataBase.GetInstance().AddNewRequest(requestDto)) return;
 
-        Requests.Add(requestDto);
+        LoadData();
     }
 
     private void Remove(RequestDto requestDto)
     {
-        //TODO Тут должен быть запрос на удаление записи из БД.
+        if (!DataBase.GetInstance().DeleteRequest(requestDto)) return;
 
         Requests.Remove(requestDto);
     }

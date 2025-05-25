@@ -19,14 +19,14 @@ public partial class MainScreenViewModel : ObservableObject
 
         switch (user.Role)
         {
-            case UserRole.Executor:
-                MainContent = new RequestExecutorListComponent();
-                viewModel = new RequestExecutorListComponentViewModel(dialogService);
-                MainContent.DataContext = viewModel;
-                break;
             case UserRole.Administrator:
                 MainContent = new RequestAdminListComponent();
                 viewModel = new RequestAdminListComponentViewModel(dialogService);
+                MainContent.DataContext = viewModel;
+                break;
+            case UserRole.Executor:
+                MainContent = new RequestExecutorListComponent();
+                viewModel = new RequestExecutorListComponentViewModel(dialogService, user);
                 MainContent.DataContext = viewModel;
                 break;
         }

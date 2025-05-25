@@ -2,6 +2,6 @@
 
 public enum UserRole
 {
-    Executor,
-    Administrator
+    Administrator,
+    Executor
 }

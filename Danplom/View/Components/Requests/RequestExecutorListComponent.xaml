@@ -4,18 +4,26 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Danplom.View.Components.Requests"
+             xmlns:converters="clr-namespace:Danplom.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+
+    <UserControl.Resources>
+        <converters:EnumToStringConverter x:Key="EnumConverter"/>
+    </UserControl.Resources>
+
+
     <Grid>
         <ListView ItemsSource="{Binding Requests}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"/>
-                    <GridViewColumn Header="RequiredQuantity" DisplayMemberBinding="{Binding RequiredQuantity}"/>
-                    <GridViewColumn Header="TimeToComplete" DisplayMemberBinding="{Binding TimeToComplete}"/>
-                    <GridViewColumn Header="RequestStatus" DisplayMemberBinding="{Binding RequestStatus}"/>
-                    <GridViewColumn Header="DetailId" DisplayMemberBinding="{Binding DetailId}"/>
-                    <GridViewColumn Header="WorkerId" DisplayMemberBinding="{Binding WorkerId}"/>
+                    <GridViewColumn Header="Номер заказа" DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Header="Номер в каталоге" DisplayMemberBinding="{Binding Detail.Id}"/>
+                    <GridViewColumn Header="Название детали" DisplayMemberBinding="{Binding Detail.Name}"/>
+                    <GridViewColumn Header="Требуемое количество" DisplayMemberBinding="{Binding RequiredQuantity}"/>
+                    <GridViewColumn Header="Время(ч)" DisplayMemberBinding="{Binding TimeToComplete}"/>
+                    <GridViewColumn Header="Состояние заказа" DisplayMemberBinding="{Binding Status, Converter={StaticResource EnumConverter}}"/>
                 </GridView>
             </ListView.View>
 

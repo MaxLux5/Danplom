@@ -21,7 +21,7 @@
 
 
             <Image Grid.Row="0" Style="{StaticResource EngineLogo}"/>
-            <TextBlock Text="EngineForge"
+            <TextBlock Text="EngineOrders"
                    Grid.Row="1"
                    Height="36"
                    VerticalAlignment="Center"

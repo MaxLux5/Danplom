@@ -2,25 +2,66 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-        xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:local="clr-namespace:Danplom.View.Components.Requests"
+             xmlns:converters="clr-namespace:Danplom.Converters"
+             xmlns:enums="clr-namespace:Danplom.Model"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
+
+    <UserControl.Resources>
+        <!--Здесь реализован провайдер данных, который возвращает список элементов RequestStatus'а-->
+        <ObjectDataProvider x:Key="EnumElementsArray"
+                        MethodName="GetValues"
+                        ObjectType="{x:Type enums:RequestStatus}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enums:RequestStatus"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+        <converters:EnumToStringConverter x:Key="EnumConverter"/>
+    </UserControl.Resources>
+
+
     <Grid>
         <StackPanel>
-            <TextBlock Text="RequiredQuantity"/>
+            <TextBlock Text="Номер в каталоге"/>
+            <ComboBox ItemsSource="{Binding Details}"
+                      SelectedItem="{Binding CurrentDetail}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <TextBlock Text="Требуемое количество(шт)"/>
             <toolkit:IntegerUpDown Value="{Binding RequiredQuantity}"/>
 
-            <TextBlock Text="RequiredQuantity"/>
+            <TextBlock Text="Время(ч)"/>
             <toolkit:IntegerUpDown Value="{Binding TimeToComplete}"/>
 
-            <TextBlock Text="DetailId"/>
-            <TextBox Text="{Binding DetailId}"/>
+            <TextBlock Text="Работник"/>
+            <ComboBox ItemsSource="{Binding Executors}"
+                      SelectedItem="{Binding CurrentExecutor}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
 
-            <TextBlock Text="WorkerId"/>
-            <toolkit:IntegerUpDown Value="{Binding WorkerId}"/>
+            <TextBlock Text="Состояние заказа"/>
+            <ComboBox ItemsSource="{Binding Source={StaticResource EnumElementsArray}}"
+                      SelectedItem="{Binding CurrentStatus}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource EnumConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </StackPanel>
     </Grid>
 </UserControl>

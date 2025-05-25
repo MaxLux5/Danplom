@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Danplom.Model;
 using Danplom.ViewModel.Components.Authorization.Events;
+using Danplom.DataBaseConnector;
 
 namespace Danplom.ViewModel.Components.Authorization;
 
@@ -21,14 +22,10 @@ public partial class LoginComponentViewModel : ObservableObject
     [RelayCommand]
     private void TryLogin()
     {
-        //TODO Тут должен быть запрос в БД для авторизации
+        var loginedUser = DataBase.GetInstance().Login(Login, Password);
+        if (loginedUser is null) return;
 
-        if (true)
-        {
-            //TODO Тут должен быть запрос в БД для получения подробной информации о пользователе
-
-            OnLoginCompleted(this, new LoginEventArgs(new UserDto(-1, "Тестовый", UserRole.Administrator, "Да", "Да")));
-        }
+        OnLoginCompleted(this, new LoginEventArgs(loginedUser));
     }
     private void OnLoginCompleted(object? sender, LoginEventArgs e)
     {

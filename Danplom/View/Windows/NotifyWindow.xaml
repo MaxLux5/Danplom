@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Danplom.View.Windows"
         mc:Ignorable="d"
-        Title="Вы уверены?" Height="130" Width="200">
+        Title="Вы уверены?" Height="130" Width="200"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -23,10 +24,10 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Button Margin="5"
+            <Button Grid.Column="1" Margin="5"
                     Content="Нет"
                     Command="{Binding CancelCommand}"/>
-            <Button Grid.Column="1"
+            <Button Grid.Column="0"
                     Margin="5"
                     Content="Да"
                     Command="{Binding OkCommand}"/>
